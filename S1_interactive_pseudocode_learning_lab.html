@@ -266,7 +266,7 @@
           <div>
             <div class="flex items-center justify-between mb-3">
               <h3 class="font-bold text-slate-900">Variable Identifier Rules (Page 21)</h3>
-              <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded-full border border-amber-200">Zara's Tips</span>
+              <span class="text-xs bg-amber-50 text-amber-700 font-semibold px-2 py-0.5 rounded-full border border-amber-200"> 's Tips</span>
             </div>
             <p class="text-xs text-slate-500 mb-4">A variable is a named location in computer memory storing one piece of data. Test identifier validity below:</p>
 
@@ -749,7 +749,7 @@
         <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-5 border-b border-slate-200">
           <div>
             <div class="inline-flex items-center gap-1.5 bg-indigo-50 text-indigo-700 px-2.5 py-0.5 rounded-full text-xs font-semibold mb-1">
-              <span>📄 Zara &amp; Sofia's Sliding Paper Technique</span>
+              <span>📄   &amp;  's Sliding Paper Technique</span>
             </div>
             <h2 class="text-xl font-bold text-slate-900">Step-by-Step Pseudocode Simulator</h2>
             <p class="text-xs text-slate-500">
@@ -802,13 +802,13 @@
               </div>
             </div>
 
-            <!-- Zara / Sofia Tip speech bubble -->
+            <!--   /   Tip speech bubble -->
             <div class="mt-6 p-3 bg-slate-900 border border-slate-800 rounded-lg text-xs font-sans flex items-start gap-2.5">
               <span class="text-xl">👩🏾‍💻</span>
               <div>
-                <span class="text-amber-400 font-bold text-[11px]">Zara:</span>
-                <p id="zara-tip" class="text-slate-300 text-xs mt-0.5">
-                  "No Sofia, we need to do the top bit first or it won't work! Follow the sequence one statement at a time."
+                <span class="text-amber-400 font-bold text-[11px]"> :</span>
+                <p id=" -tip" class="text-slate-300 text-xs mt-0.5">
+                  "No  , we need to do the top bit first or it won't work! Follow the sequence one statement at a time."
                 </p>
               </div>
             </div>
@@ -1046,7 +1046,7 @@
     <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-2">
       <div>Computational Thinking &amp; Programming &bull; Unit 1.1 Pseudocode</div>
       <div class="flex items-center gap-3">
-        <span>Zara &amp; Sofia's Learning Companion</span>
+        <span>  &amp;  's Learning Companion</span>
       </div>
     </div>
   </footer>
@@ -1511,18 +1511,18 @@
         const inputField = document.getElementById('user-step-input');
         inputField.value = currentStmt.default;
         inputField.focus();
-        document.getElementById('zara-tip').innerText = `Sofia, we need user input for '${currentStmt.var}'. Enter a value and submit!`;
+        document.getElementById(' -tip').innerText = ` , we need user input for '${currentStmt.var}'. Enter a value and submit!`;
         return;
       }
 
       if (currentStmt.type === "assign") {
         currentStmt.run(runnerMemory);
         renderMemoryInspector();
-        document.getElementById('zara-tip').innerText = `Line ${runnerStepIndex + 1} calculated an assignment. Updated memory!`;
+        document.getElementById(' -tip').innerText = `Line ${runnerStepIndex + 1} calculated an assignment. Updated memory!`;
       } else if (currentStmt.type === "output") {
         const outputVal = currentStmt.eval(runnerMemory);
         appendConsole(outputVal);
-        document.getElementById('zara-tip').innerText = `Line ${runnerStepIndex + 1} sent data to screen: "${outputVal}"`;
+        document.getElementById(' -tip').innerText = `Line ${runnerStepIndex + 1} sent data to screen: "${outputVal}"`;
       }
 
       runnerStepIndex++;
@@ -1530,7 +1530,7 @@
 
       if (runnerStepIndex >= prog.code.length) {
         document.getElementById('runner-status').innerText = "Program Finished!";
-        document.getElementById('zara-tip').innerText = "All lines executed in strict sequence! Fantastic job.";
+        document.getElementById(' -tip').innerText = "All lines executed in strict sequence! Fantastic job.";
       }
     }
 
@@ -1593,7 +1593,7 @@
       clearConsoleOutput();
       renderRunnerLines();
       renderMemoryInspector();
-      document.getElementById('zara-tip').innerText = "Press 'Step Down' to follow the algorithm one statement at a time!";
+      document.getElementById(' -tip').innerText = "Press 'Step Down' to follow the algorithm one statement at a time!";
     }
 
     /* ==========================================================
