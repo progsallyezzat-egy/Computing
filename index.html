@@ -353,24 +353,27 @@
         lessons: [
           {
             id: "y8_l1",
-            title: "Python Variables, Input & Loops",
-            badge: "Text Programming",
+            title: "Pseudocode & Computational Thinking",
+            badge: "Algorithms & Logic",
             badgeColor: "bg-yellow-950 text-yellow-300 border-yellow-800",
-            icon: "🐍",
-            desc: "Transition from blocks to high-level syntax: data types (str, int, float), assignment, and for/while loops.",
+            icon: "📝⚡",
+            desc: "Master algorithm structures, step-by-step logic tracing, variable declarations, and conditional statements in Pseudocode before coding in Python.",
+            externalLink: "Year8_9/S1_interactive_pseudocode_learning_lab.html",
             recap: {
-              overview: "Python is an interpreted, readable programming language widely used in AI, web development, and cyber security.",
+              overview: "Pseudocode is an informal, high-level description of a computer program or algorithm intended for human reading rather than machine execution. It bridges the gap between everyday problem solving and actual Python programming syntax.",
               keyTerms: [
-                { term: "Variable", def: "A named memory container storing values that can change during execution." },
-                { term: "Data Types", def: "String (text), Integer (whole number), Float (decimals), Boolean (True/False)." },
-                { term: "Indentation", def: "Required 4-space whitespace that defines Python blocks of code." }
+                { term: "Pseudocode", def: "A plain-language description of steps in an algorithm without strict language syntax." },
+                { term: "Sequence", def: "Executing instructions strictly one after the other in sequential order." },
+                { term: "Selection", def: "Making decisions and branching execution using IF... THEN... ELSE structures." },
+                { term: "Iteration", def: "Repeating a set of instructions until a condition is met (FOR, WHILE loops)." }
               ],
               takeaways: [
-                "input() always captures data as a String; convert numbers with int().",
-                "Strings require double or single quotation marks."
+                "Pseudocode clarifies logical errors before you write a single line of Python code.",
+                "INPUT, OUTPUT, IF, THEN, ELSE, and ENDIF are common standard keywords.",
+                "Consistent indentation visually represents nested logic and control blocks."
               ]
             },
-            interactiveType: "pythonRunner"
+            interactiveType: "externalLab"
           },
           {
             id: "y8_l2",
@@ -532,11 +535,19 @@
               class="w-full py-2.5 px-3 rounded-xl border border-slate-700/80 hover:border-slate-500 bg-slate-900/80 hover:bg-slate-800/90 text-slate-200 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition active:scale-95">
               <span>📖</span> Recap
             </button>
+            ${lesson.externalLink ? `
+            <a 
+              href="${lesson.externalLink}"
+              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95 text-center">
+              <span>⚡</span> Pseudocode Lab ↗
+            </a>
+            ` : `
             <button 
               onclick="openInteractiveModal('${lesson.id}')"
               class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-lg shadow-cyan-500/20 active:scale-95">
               <span>⚡</span> Interactive
             </button>
+            `}
           </div>
         `;
         container.appendChild(card);
@@ -629,6 +640,18 @@
           break;
         case 'flowchartTester':
           renderFlowchartSimulator(container);
+          break;
+        case 'externalLab':
+          container.innerHTML = `
+            <div class="p-6 text-center space-y-4">
+              <div class="text-4xl">🚀</div>
+              <h3 class="text-lg font-bold text-slate-100">Pseudocode Interactive Learning Lab</h3>
+              <p class="text-sm text-slate-400">Launch Eng. Sally Ezzat's specialized hands-on pseudocode interactive environment.</p>
+              <a href="${lesson.externalLink}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold rounded-xl shadow-lg transition hover:scale-105">
+                Open Pseudocode Lab ↗
+              </a>
+            </div>
+          `;
           break;
         case 'pythonRunner':
           renderPythonPlayground(container);
