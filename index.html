@@ -1,1556 +1,467 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Computing By Eng. Sally Ezzat</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
-  <script>
-    tailwind.config = {
-      darkMode: 'class',
-      theme: {
-        extend: {
-          fontFamily: {
-            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-            mono: ['"JetBrains Mono"', 'monospace'],
-          },
-          colors: {
-            cyber: {
-              bg: '#080d1a',
-              card: '#0f172a',
-              cardLight: '#131e36',
-              border: '#1e293b',
-              neonCyan: '#06b6d4',
-              cyanGlow: 'rgba(6, 182, 212, 0.25)',
-              neonBlue: '#3b82f6',
-              purple: '#8b5cf6',
-              accentEmerald: '#10b981',
-            }
-          }
-        }
-      }
-    }
-  </script>
   <style>
-    ::-webkit-scrollbar {
-      width: 8px;
+    :root {
+      --bg: #090e17;
+      --card-bg: #111a2e;
+      --accent: #00d2ff;
+      --accent-glow: rgba(0, 210, 255, 0.35);
+      --border: #1e2d4a;
+      --text: #e2e8f0;
+      --text-muted: #8da2c0;
     }
-    ::-webkit-scrollbar-track {
-      background: #080d1a;
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
     }
-    ::-webkit-scrollbar-thumb {
-      background: #1e293b;
-      border-radius: 4px;
+
+    body {
+      background-color: var(--bg);
+      color: var(--text);
+      padding: 2rem 1rem;
+      min-height: 100vh;
     }
-    ::-webkit-scrollbar-thumb:hover {
-      background: #06b6d4;
+
+    /* Header */
+    header {
+      text-align: center;
+      margin-bottom: 2rem;
     }
-    .neon-border-glow {
-      box-shadow: 0 0 20px -3px rgba(6, 182, 212, 0.35);
+
+    .brand-title {
+      font-size: 2.2rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 1.5px;
+      color: #ffffff;
+      text-shadow: 0 0 15px var(--accent-glow);
     }
-    .card-glass {
-      background: linear-gradient(135deg, rgba(19, 30, 54, 0.7) 0%, rgba(15, 23, 42, 0.9) 100%);
-      backdrop-filter: blur(12px);
+
+    .brand-sub {
+      color: var(--accent);
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 2px;
+      margin-top: 4px;
     }
-    .grid-bg {
-      background-size: 32px 32px;
-      background-image: 
-        linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
-        linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+
+    /* Year Tabs */
+    .tabs {
+      display: flex;
+      justify-content: center;
+      gap: 0.6rem;
+      flex-wrap: wrap;
+      margin-bottom: 2rem;
     }
-    @keyframes pulseSoft {
-      0%, 100% { opacity: 0.8; transform: scale(1); }
-      50% { opacity: 1; transform: scale(1.02); }
+
+    .tab-btn {
+      background: var(--card-bg);
+      color: var(--text-muted);
+      border: 1px solid var(--border);
+      padding: 0.6rem 1.4rem;
+      border-radius: 9999px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-    .glow-pulse {
-      animation: pulseSoft 4s infinite ease-in-out;
+
+    .tab-btn:hover {
+      border-color: var(--accent);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: var(--accent);
+      color: #050a12;
+      border-color: var(--accent);
+      box-shadow: 0 0 15px var(--accent-glow);
+    }
+
+    /* Panels */
+    .year-panel {
+      display: none;
+      max-width: 950px;
+      margin: 0 auto;
+    }
+
+    .year-panel.active {
+      display: block;
+    }
+
+    /* Grid & Cards */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1.4rem;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 1.4rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      transition: 0.2s;
+    }
+
+    .card:hover {
+      border-color: var(--accent);
+      transform: translateY(-3px);
+    }
+
+    .card h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.4rem;
+      color: #fff;
+    }
+
+    .card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.4;
+    }
+
+    .card-actions {
+      display: flex;
+      flex-direction: column;
+      gap: 0.6rem;
+    }
+
+    .btn {
+      width: 100%;
+      padding: 0.7rem;
+      border-radius: 8px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      transition: 0.2s;
+      border: none;
+    }
+
+    .btn-recap {
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border);
+      color: var(--text);
+    }
+
+    .btn-recap:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: var(--text-muted);
+    }
+
+    .btn-interactive {
+      background: var(--accent);
+      color: #050a12;
+    }
+
+    .btn-interactive:hover {
+      background: #38bdf8;
+      box-shadow: 0 0 12px var(--accent-glow);
+    }
+
+    /* Modal */
+    .modal-overlay {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 10, 18, 0.85);
+      backdrop-filter: blur(4px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      z-index: 1000;
+    }
+
+    .modal-overlay.active {
+      display: flex;
+    }
+
+    .modal-content {
+      background: #0d1527;
+      border: 1px solid #1e3a6d;
+      border-radius: 12px;
+      max-width: 650px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 1.5rem;
+      box-shadow: 0 0 25px rgba(0, 210, 255, 0.2);
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .modal-header h2 {
+      font-size: 1.25rem;
+      color: var(--accent);
+    }
+
+    .close-btn {
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      cursor: pointer;
+    }
+
+    .close-btn:hover {
+      color: #fff;
+    }
+
+    .recap-img-box {
+      text-align: center;
+      background: #080d19;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .recap-img-box img {
+      max-width: 100%;
+      height: auto;
+      border-radius: 6px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .img-caption {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 0.4rem;
+    }
+
+    .recap-points {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+      font-size: 0.95rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .recap-points li strong {
+      color: #fff;
     }
   </style>
 </head>
-<body class="bg-[#080d1a] text-slate-100 font-sans min-h-screen grid-bg antialiased selection:bg-cyan-500 selection:text-slate-900 flex flex-col justify-between">
+<body>
 
-  <header class="border-b border-slate-800/80 bg-slate-950/60 sticky top-0 z-30 backdrop-blur-md">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4 flex flex-col md:flex-row items-center justify-between gap-4">
-      <div class="flex items-center gap-3">
-        <div class="w-11 h-11 rounded-xl bg-gradient-to-tr from-cyan-500 via-blue-600 to-indigo-500 flex items-center justify-center shadow-lg shadow-cyan-500/20 text-slate-950 font-bold text-xl">
-          💻
-        </div>
-        <div>
-          <div class="flex items-center gap-2">
-            <h1 class="text-xl md:text-2xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-cyan-400 via-sky-300 to-indigo-400">
-              Computing By Eng. Sally Ezzat
-            </h1>
-            <span class="px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider rounded-full bg-cyan-950 text-cyan-400 border border-cyan-800">Portal</span>
-          </div>
-          <p class="text-xs text-slate-400">Curriculum-aligned Interactive Modules & Lesson Recaps • Years 5 to 9</p>
-        </div>
-      </div>
-
-      <!-- Quick Search Bar -->
-      <div class="relative w-full md:w-72">
-        <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
-          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path></svg>
-        </div>
-        <input 
-          type="text" 
-          id="searchInput" 
-          placeholder="Search topics (e.g. binary, loops)..." 
-          class="w-full pl-9 pr-4 py-2 bg-slate-900/90 border border-slate-700/80 rounded-xl text-xs md:text-sm text-slate-200 placeholder-slate-500 focus:outline-none focus:border-cyan-400 focus:ring-1 focus:ring-cyan-400 transition"
-          oninput="handleSearch(this.value)"
-        >
-      </div>
-    </div>
+  <header>
+    <div class="brand-title">Computing</div>
+    <div class="brand-sub">BY ENG. SALLY EZZAT</div>
   </header>
 
-  <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 w-full flex-1">
-    <!-- Grade Selector Controls -->
-    <div class="flex flex-col items-center mb-8">
-      <div class="inline-flex p-1.5 bg-slate-900/90 border border-slate-800 rounded-2xl gap-1.5 shadow-2xl flex-wrap justify-center" id="yearTabContainer">
-        <button onclick="setYear('year5')" id="tab-year5" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide transition-all flex items-center gap-2 bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/25">
-          <span>🚀</span> Year 5
-        </button>
-        <button onclick="setYear('year6')" id="tab-year6" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all flex items-center gap-2">
-          <span>⚡</span> Year 6
-        </button>
-        <button onclick="setYear('year7')" id="tab-year7" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all flex items-center gap-2">
-          <span>🛠️</span> Year 7
-        </button>
-        <button onclick="setYear('year8')" id="tab-year8" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all flex items-center gap-2">
-          <span>🐍</span> Year 8
-        </button>
-        <button onclick="setYear('year9')" id="tab-year9" class="tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all flex items-center gap-2">
-          <span>🛡️</span> Year 9
-        </button>
-      </div>
+  <!-- Year Tabs: Year 5 through Year 9 -->
+  <div class="tabs">
+    <button class="tab-btn" onclick="openYear('year5', this)">Year 5</button>
+    <button class="tab-btn" onclick="openYear('year6', this)">Year 6</button>
+    <button class="tab-btn" onclick="openYear('year7', this)">Year 7</button>
+    <button class="tab-btn active" onclick="openYear('year8', this)">Year 8</button>
+    <button class="tab-btn" onclick="openYear('year9', this)">Year 9</button>
+  </div>
 
-      <div class="mt-4 flex items-center gap-2 text-xs text-slate-400">
-        <span class="inline-block w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-        <span id="currentYearInfo" class="font-medium text-slate-300">Viewing: Year 5 Computing Syllabus</span>
-      </div>
-    </div>
-
-    <div id="lessonsGrid" class="grid grid-cols-1 md:grid-cols-2 gap-6 min-h-[360px]">
-      <!-- Lesson cards will be populated dynamically -->
-    </div>
-  </main>
-
-  <!-- Recap Modal with Image Preview Support -->
-  <div id="recapModal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-sm hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-slate-700/80 rounded-2xl w-full max-w-2xl overflow-hidden shadow-2xl transform transition-all flex flex-col max-h-[90vh]">
-      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <span class="p-2 rounded-lg bg-cyan-950 text-cyan-400 text-lg" id="recapIcon">📖</span>
-          <div>
-            <h3 class="font-bold text-lg text-slate-100" id="recapModalTitle">Lesson Recap</h3>
-            <span class="text-xs text-cyan-400 font-mono" id="recapModalSubtitle">Year Concept Review</span>
-          </div>
+  <!-- YEAR 5 -->
+  <section id="year5" class="year-panel">
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Lesson 1: Scratch Loops</h3>
+          <p>Learn repeat blocks, sprites, and basic sequence flow.</p>
         </div>
-        <button onclick="closeModal('recapModal')" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 text-xl font-semibold">✕</button>
+        <div class="card-actions">
+          <button class="btn btn-recap" onclick="showRecap('Year 5: Scratch Loops', null, ['A loop repeats commands multiple times.', 'Helps write cleaner and shorter code.'])">📖 Lessons Recap</button>
+          <a class="btn btn-interactive" href="#">⚡ Interactive Lesson</a>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- YEAR 6 -->
+  <section id="year6" class="year-panel">
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Lesson 1: Introduction to Binary</h3>
+          <p>Bits, bytes, and how computers use 0s and 1s.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-recap" onclick="showRecap('Year 6: Intro to Binary', null, ['Computers only process 0 and 1 (ON / OFF).', '8 bits equal 1 byte.'])">📖 Lessons Recap</button>
+          <a class="btn btn-interactive" href="#">⚡ Interactive Lesson</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YEAR 7 -->
+  <section id="year7" class="year-panel">
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Lesson 1: Hardware & Software</h3>
+          <p>Physical parts vs digital applications and operating systems.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-recap" onclick="showRecap('Year 7: Hardware & Software', null, ['Hardware: physical components like CPU, keyboard, RAM.', 'Software: instructions that run on the hardware.'])">📖 Lessons Recap</button>
+          <a class="btn btn-interactive" href="#">⚡ Interactive Lesson</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- YEAR 8 (Focused on your links & image) -->
+  <section id="year8" class="year-panel active">
+    <div class="grid">
       
-      <div class="p-6 overflow-y-auto space-y-6 text-sm text-slate-300" id="recapModalContent">
-        <!-- Injected recap details -->
-      </div>
-
-      <div class="px-6 py-4 border-t border-slate-800 bg-slate-950/80 flex justify-between items-center">
-        <span class="text-xs text-slate-500 font-mono">Eng. Sally Ezzat Notes</span>
-        <button onclick="closeModal('recapModal')" class="px-4 py-2 bg-slate-800 hover:bg-slate-700 text-white rounded-xl text-xs font-semibold">
-          Close Recap
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <!-- Fullscreen Image Zoom / Lightbox Modal -->
-  <div id="imageLightboxModal" class="fixed inset-0 z-50 bg-black/90 backdrop-blur-md hidden items-center justify-center p-4" onclick="closeLightbox()">
-    <div class="relative max-w-4xl max-h-[90vh] flex flex-col items-center">
-      <img id="lightboxImg" src="" alt="Recap Fullscreen Preview" class="max-h-[82vh] max-w-full rounded-xl border border-cyan-500/40 shadow-2xl object-contain">
-      <div class="mt-3 flex items-center gap-3">
-        <span class="text-xs text-cyan-300 font-mono" id="lightboxCaption">Source: img/S1_recap</span>
-        <button onclick="closeLightbox()" class="px-3 py-1 bg-slate-800 hover:bg-slate-700 text-white rounded-lg text-xs font-semibold border border-slate-700">Close Fullscreen ✕</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="interactiveModal" class="fixed inset-0 z-50 bg-black/85 backdrop-blur-md hidden items-center justify-center p-4">
-    <div class="bg-slate-900 border border-cyan-500/40 neon-border-glow rounded-2xl w-full max-w-3xl overflow-hidden shadow-2xl flex flex-col max-h-[92vh]">
-      <div class="px-6 py-4 border-b border-slate-800 bg-slate-950 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-          <div class="p-2 rounded-xl bg-cyan-500/20 text-cyan-400 text-lg font-bold" id="interactiveIcon">⚡</div>
-          <div>
-            <h3 class="font-bold text-lg text-slate-100 flex items-center gap-2">
-              <span id="interactiveModalTitle">Interactive Simulator</span>
-              <span class="text-[10px] bg-cyan-900/60 text-cyan-300 px-2 py-0.5 rounded border border-cyan-700">Hands-on</span>
-            </h3>
-            <p class="text-xs text-slate-400" id="interactiveModalDesc">Solve or experiment with the practical concept</p>
-          </div>
+      <!-- Year 8 Lesson 1 -->
+      <div class="card">
+        <div>
+          <h3>Lesson 1: Pseudocode & Computing Principles</h3>
+          <p>Core system flow: Input, CPU processing, Memory (RAM), Storage, and Output.</p>
         </div>
-        <button onclick="closeModal('interactiveModal')" class="text-slate-400 hover:text-white p-1 rounded-lg hover:bg-slate-800 text-xl font-semibold">✕</button>
+        <div class="card-actions">
+          <!-- Button opens recap with img/S1_recap image preview -->
+          <button class="btn btn-recap" onclick="showY8L1Recap()">📖 Lessons Recap</button>
+          
+          <!-- Exact internal link requested -->
+          <a class="btn btn-interactive" href="Year8_9/S1_interactive_pseudocode_learning_lab.html">⚡ Interactive Lesson ↗</a>
+        </div>
       </div>
 
-      <!-- Simulator Workspace Viewport -->
-      <div class="p-6 overflow-y-auto flex-1 bg-slate-950/40" id="interactiveContainer">
-        <!-- Interactive content injected here -->
+      <!-- Year 8 Lesson 2 -->
+      <div class="card">
+        <div>
+          <h3>Lesson 2: Python Conditions & Logic</h3>
+          <p>Using IF, ELSE, and comparison operators in algorithms.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-recap" onclick="showRecap('Year 8: Python Conditions', null, ['IF tests a condition (True/False).', 'ELSE provides the alternative path if condition is False.'])">📖 Lessons Recap</button>
+          <a class="btn btn-interactive" href="#">⚡ Interactive Lesson</a>
+        </div>
       </div>
 
-      <div class="px-6 py-3 border-t border-slate-800 bg-slate-950 flex items-center justify-between text-xs text-slate-400 font-mono">
-        <span>⚡ Interactive Computing Studio</span>
-        <button onclick="closeModal('interactiveModal')" class="px-4 py-1.5 bg-cyan-600 hover:bg-cyan-500 text-slate-950 rounded-lg font-bold transition">Done Activity</button>
+    </div>
+  </section>
+
+  <!-- YEAR 9 -->
+  <section id="year9" class="year-panel">
+    <div class="grid">
+      <div class="card">
+        <div>
+          <h3>Lesson 1: Cybersecurity & Networks</h3>
+          <p>Phishing, malware protection, and network safety rules.</p>
+        </div>
+        <div class="card-actions">
+          <button class="btn btn-recap" onclick="showRecap('Year 9: Cybersecurity', null, ['Never click untrusted links or give passwords.', 'Use strong passwords and Two-Factor Authentication.'])">📖 Lessons Recap</button>
+          <a class="btn btn-interactive" href="#">⚡ Interactive Lesson</a>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <!-- Recap Modal -->
+  <div class="modal-overlay" id="recapModal" onclick="closeModal(event)">
+    <div class="modal-content" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="modalTitle">Lesson Recap</h2>
+        <button class="close-btn" onclick="closeModal()">&times;</button>
+      </div>
+
+      <!-- Image Box for Recap -->
+      <div class="recap-img-box" id="recapImgBox" style="display: none;">
+        <img id="recapImg" src="" alt="Lesson Recap Diagram" onerror="handleImgError(this)" />
+        <div class="img-caption" id="imgCaption">Source: img/S1_recap</div>
+      </div>
+
+      <!-- Points -->
+      <ul class="recap-points" id="modalPoints"></ul>
     </div>
   </div>
-
-  <footer class="border-t border-slate-800/80 bg-slate-950/80 py-6 text-center text-xs text-slate-500">
-    <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
-      <p>© 2026 Computing Department • Designed for <strong class="text-slate-300">Eng. Sally Ezzat's Students</strong></p>
-      <div class="flex gap-4 text-slate-400">
-        <span class="hover:text-cyan-400 transition cursor-pointer">KS2 & KS3 Computing Standards</span>
-        <span>•</span>
-        <span class="hover:text-cyan-400 transition cursor-pointer">Live Sandboxes</span>
-      </div>
-    </div>
-  </footer>
 
   <script>
-    const curriculumData = {
-      year5: {
-        info: "Year 5 Computing Syllabus: Computational Thinking & Digital Citizenship",
-        lessons: [
-          {
-            id: "y5_l1",
-            title: "Block Coding & Repetition (Scratch)",
-            badge: "Programming",
-            badgeColor: "bg-amber-950 text-amber-300 border-amber-800",
-            icon: "🐱",
-            desc: "Learn algorithm sequencing, sprite control, and how Repeat Loops prevent repetitive code in visual languages.",
-            recap: {
-              overview: "Block programming lets young coders think logically without worrying about syntax errors. Instead of typing lines, we snap color-coded instruction blocks together.",
-              keyTerms: [
-                { term: "Algorithm", def: "A step-by-step set of ordered instructions to solve a problem." },
-                { term: "Sequence", def: "The exact chronological order in which steps are executed." },
-                { term: "Repeat Loop", def: "A control structure that repeats instructions multiple times efficiently." }
-              ],
-              takeaways: [
-                "Computers read instructions strictly from top to bottom.",
-                "Using a repeat loop of 4 steps is cleaner than writing duplicate blocks four times.",
-                "Bugs occur when blocks are ordered incorrectly or loop counts are wrong."
-              ]
-            },
-            interactiveType: "scratchLoop"
-          },
-          {
-            id: "y5_l2",
-            title: "Digital Citizenship & Smart Search",
-            badge: "Online Safety",
-            badgeColor: "bg-emerald-950 text-emerald-300 border-emerald-800",
-            icon: "🌐",
-            desc: "Master reliable web search keywords, copyright awareness, and protecting personal information online.",
-            recap: {
-              overview: "Being a smart digital citizen means using the internet safely, being respectful, and knowing how to evaluate facts vs. advertisements.",
-              keyTerms: [
-                { term: "Personal Data (PII)", def: "Information that identifies you like full name, home address, and school." },
-                { term: "Digital Footprint", def: "The trail of data left behind whenever you use the internet." },
-                { term: "Keywords", def: "Specific words used in search engines to get exact, useful results." }
-              ],
-              takeaways: [
-                "Never share your passwords, birthdate, or phone number in online games.",
-                "Quotation marks (\" \") in search engines find exact matching phrases.",
-                "Always check if a website is trustworthy before using its facts."
-              ]
-            },
-            interactiveType: "safetyQuiz"
-          }
-        ]
-      },
-      year6: {
-        info: "Year 6 Computing Syllabus: Binary Language & Physical Computing",
-        lessons: [
-          {
-            id: "y6_l1",
-            title: "Introduction to Binary & Bits",
-            badge: "Data Representation",
-            badgeColor: "bg-cyan-950 text-cyan-300 border-cyan-800",
-            icon: "0️⃣1️⃣",
-            desc: "Discover why computers only speak in electrical switches (0s and 1s) and convert 4-bit binary values to decimals.",
-            recap: {
-              overview: "Underneath every app and game is pure electricity. Microscopic transistors can either be switched OFF (0) or ON (1).",
-              keyTerms: [
-                { term: "Bit", def: "A single Binary Digit: either a 0 or 1. The smallest unit of digital memory." },
-                { term: "Nibble", def: "A group of 4 bits capable of representing numbers from 0 to 15." },
-                { term: "Byte", def: "A collection of 8 bits capable of representing values from 0 to 255." }
-              ],
-              takeaways: [
-                "Base 2 uses powers of two: 8, 4, 2, and 1.",
-                "To read binary, add up the column values where the bit is set to 1.",
-                "Binary is used for numbers, text characters, colors, and audio."
-              ]
-            },
-            interactiveType: "binaryFlipper"
-          },
-          {
-            id: "y6_l2",
-            title: "Sensors & Micro:bit Hardware",
-            badge: "Physical Computing",
-            badgeColor: "bg-purple-950 text-purple-300 border-purple-800",
-            icon: "📟",
-            desc: "Investigate physical inputs like accelerometers, thermometers, and light sensors that control output LED screens.",
-            recap: {
-              overview: "Micro-controllers link software to the physical world. Sensors detect ambient changes, allowing automated decision making.",
-              keyTerms: [
-                { term: "Sensor (Input)", def: "A hardware device that measures physical conditions (light, temperature, movement)." },
-                { term: "Actuator / Output", def: "A hardware part that produces physical results (LED grid, speaker, motor)." },
-                { term: "Microcontroller", def: "A compact integrated circuit containing a processor, memory, and I/O pins." }
-              ],
-              takeaways: [
-                "Input ➡️ Process ➡️ Output is the fundamental cycle of all computing devices.",
-                "An accelerometer senses tilting and shakes for gesture-based games."
-              ]
-            },
-            interactiveType: "microbitSim"
-          }
-        ]
-      },
-      year7: {
-        info: "Year 7 Computing Syllabus: Computer Systems, CPU & Algorithmic Design",
-        lessons: [
-          {
-            id: "y7_l1",
-            title: "Hardware vs Software & The CPU",
-            badge: "Systems Architecture",
-            badgeColor: "bg-blue-950 text-blue-300 border-blue-800",
-            icon: "⚙️",
-            desc: "Dissect the computer: RAM vs ROM, secondary storage, and how the CPU completes the Fetch-Decode-Execute cycle.",
-            recap: {
-              overview: "Hardware consists of the tangible physical parts. Software is the intangible code that instructs the hardware what tasks to perform.",
-              keyTerms: [
-                { term: "CPU", def: "Central Processing Unit: the brains that executes all programmed instructions." },
-                { term: "RAM (Volatile)", def: "Random Access Memory: fast temporary storage that wipes clean when power is cut." },
-                { term: "F-D-E Cycle", def: "Fetch instruction from RAM, Decode instruction, Execute instruction." }
-              ],
-              takeaways: [
-                "Storage (SSD/HDD) holds files permanently; RAM holds open apps temporarily.",
-                "Clock speed measures how many billion cycles a CPU runs each second (GHz)."
-              ]
-            },
-            interactiveType: "hardwareSorter"
-          },
-          {
-            id: "y7_l2",
-            title: "Flowcharts & Algorithmic Logic",
-            badge: "Logic Design",
-            badgeColor: "bg-pink-950 text-pink-300 border-pink-800",
-            icon: "🔀",
-            desc: "Map complex algorithms visually using standard flowchart symbols: process rectangles, diamonds, and terminals.",
-            recap: {
-              overview: "Before writing code, computer scientists design algorithms using standard diagrams to verify logic and catch edge cases.",
-              keyTerms: [
-                { term: "Terminal Oval", def: "Represents the Start or End of a flowchart process." },
-                { term: "Decision Diamond", def: "Evaluates a condition with a TRUE/FALSE or YES/NO branch." },
-                { term: "Process Rectangle", def: "Represents an operational instruction or computation." }
-              ],
-              takeaways: [
-                "Flowchart arrows must always point in the direction of execution.",
-                "Diamonds must always possess at least two outward paths."
-              ]
-            },
-            interactiveType: "flowchartTester"
-          }
-        ]
-      },
-      year8: {
-        info: "Year 8 Computing Syllabus: Python Programming & Networking Infrastructure",
-        lessons: [
-          {
-            id: "y8_l1",
-            title: "Pseudocode & Computational Thinking",
-            badge: "Algorithms & Logic",
-            badgeColor: "bg-yellow-950 text-yellow-300 border-yellow-800",
-            icon: "📝⚡",
-            desc: "Master algorithm structures, step-by-step logic tracing, variable declarations, and conditional statements in Pseudocode before coding in Python.",
-            externalLink: "Year8_9/S1_interactive_pseudocode_learning_lab.html",
-            recapImage: {
-              src: "img/S1_recap",
-              alt: "Computing Principles - S1 Lesson 1 Recap Visual",
-              caption: "Lesson 1 Diagram: Input, Output, CPU & Memory Architecture"
-            },
-            recap: {
-              overview: "Pseudocode is an informal, high-level description of a computer program or algorithm intended for human reading rather than machine execution. It bridges the gap between everyday problem solving and actual Python programming syntax.",
-              keyTerms: [
-                { term: "Pseudocode", def: "A plain-language description of steps in an algorithm without strict language syntax." },
-                { term: "Sequence", def: "Executing instructions strictly one after the other in sequential order." },
-                { term: "Selection", def: "Making decisions and branching execution using IF... THEN... ELSE structures." },
-                { term: "Iteration", def: "Repeating a set of instructions until a condition is met (FOR, WHILE loops)." }
-              ],
-              takeaways: [
-                "Pseudocode clarifies logical errors before you write a single line of Python code.",
-                "INPUT, OUTPUT, IF, THEN, ELSE, and ENDIF are common standard keywords.",
-                "Consistent indentation visually represents nested logic and control blocks."
-              ]
-            },
-            interactiveType: "externalLab"
-          },
-          {
-            id: "y8_l2",
-            title: "Computer Networks & The Internet",
-            badge: "Networking",
-            badgeColor: "bg-teal-950 text-teal-300 border-teal-800",
-            icon: "📡",
-            desc: "Investigate how data packets travel across LANs and WANs via Routers, Switches, and IP addressing.",
-            recap: {
-              overview: "A computer network is two or more devices connected together to share data, communication, and hardware resources.",
-              keyTerms: [
-                { term: "LAN vs WAN", def: "Local Area Network (school/home) vs Wide Area Network (across cities/world)." },
-                { term: "Packet", def: "A chunk of data broken down with sender IP, receiver IP, and payload." },
-                { term: "Router", def: "Hardware that directs packets between different networks to reach their destination." }
-              ],
-              takeaways: [
-                "The Internet is the physical network of networks; the World Wide Web (WWW) is the content service built on it.",
-                "Packets can travel via different routes and are reassembled at destination."
-              ]
-            },
-            interactiveType: "networkPacketSim"
-          }
-        ]
-      },
-      year9: {
-        info: "Year 9 Computing Syllabus: Cybersecurity, Encryption & Logic Gates",
-        lessons: [
-          {
-            id: "y9_l1",
-            title: "Cybersecurity, Phishing & Malware",
-            badge: "Security & Ethics",
-            badgeColor: "bg-red-950 text-red-300 border-red-800",
-            icon: "🛡️",
-            desc: "Analyze social engineering attacks, detect fraudulent emails, understand Ransomware, and evaluate defense protocols.",
-            recap: {
-              overview: "Cybersecurity protects hardware, software, and networks from digital attacks, identity theft, and data destruction.",
-              keyTerms: [
-                { term: "Phishing", def: "Fake emails or links disguised as legitimate entities to harvest sensitive credentials." },
-                { term: "Social Engineering", def: "Manipulating humans into breaking normal security protocols." },
-                { term: "2FA / MFA", def: "Two-Factor Authentication: combining something you know with something you have." }
-              ],
-              takeaways: [
-                "Look closely at email sender domains (e.g., support@paypa1-security.com vs paypal.com).",
-                "Strong passwords avoid dictionary words and use symbols, numbers, and case mix."
-              ]
-            },
-            interactiveType: "phishingInspector"
-          },
-          {
-            id: "y9_l2",
-            title: "Logic Gates & Truth Tables (AND, OR, NOT)",
-            badge: "Boolean Logic",
-            badgeColor: "bg-indigo-950 text-indigo-300 border-indigo-800",
-            icon: "⚡💡",
-            desc: "Construct hardware logic circuits with fundamental Boolean gates to see how physical chips compute decisions.",
-            recap: {
-              overview: "All digital processors are built out of combinations of microscopic logic gates that manipulate high (1) and low (0) voltage.",
-              keyTerms: [
-                { term: "AND Gate", def: "Outputs 1 ONLY IF both input A and input B are 1." },
-                { term: "OR Gate", def: "Outputs 1 if either input A OR input B (or both) is 1." },
-                { term: "NOT Gate", def: "Inverter gate; turns a 1 into a 0, and a 0 into a 1." }
-              ],
-              takeaways: [
-                "Truth tables mathematically outline every possible input combination and output.",
-                "NAND and NOR gates are universal gates capable of building any computing circuit."
-              ]
-            },
-            interactiveType: "logicGateSim"
-          }
-        ]
+    // Tab switching
+    function openYear(yearId, btn) {
+      document.querySelectorAll('.year-panel').forEach(panel => panel.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.getElementById(yearId).classList.add('active');
+      btn.classList.add('active');
+    }
+
+    // Modal control
+    function closeModal(e) {
+      if (!e || e.target.id === 'recapModal' || e.target.classList.contains('close-btn')) {
+        document.getElementById('recapModal').classList.remove('active');
       }
-    };
+    }
 
-    let activeYear = 'year5';
-    let searchQuery = '';
+    // Generic recap opener
+    function showRecap(title, imgSrc, points) {
+      document.getElementById('modalTitle').textContent = title;
+      const imgBox = document.getElementById('recapImgBox');
+      const img = document.getElementById('recapImg');
 
-    function setYear(yearKey) {
-      activeYear = yearKey;
-      
-      // Update Tab Styles
-      ['year5', 'year6', 'year7', 'year8', 'year9'].forEach(y => {
-        const btn = document.getElementById(`tab-${y}`);
-        if (y === yearKey) {
-          btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide transition-all flex items-center gap-2 bg-cyan-500 text-slate-950 shadow-lg shadow-cyan-500/25";
-        } else {
-          btn.className = "tab-btn px-5 py-2.5 rounded-xl font-bold text-sm tracking-wide text-slate-400 hover:text-slate-100 hover:bg-slate-800 transition-all flex items-center gap-2";
-        }
+      if (imgSrc) {
+        img.src = imgSrc;
+        imgBox.style.display = 'block';
+      } else {
+        imgBox.style.display = 'none';
+      }
+
+      const pointsList = document.getElementById('modalPoints');
+      pointsList.innerHTML = '';
+      points.forEach(point => {
+        const li = document.createElement('li');
+        li.innerHTML = point;
+        pointsList.appendChild(li);
       });
 
-      document.getElementById('currentYearInfo').innerText = curriculumData[yearKey].info;
-      renderCards();
+      document.getElementById('recapModal').classList.add('active');
     }
 
-    function handleSearch(val) {
-      searchQuery = val.toLowerCase().trim();
-      renderCards();
+    // Specific Year 8 Lesson 1 recap using your diagram and points
+    function showY8L1Recap() {
+      // Tries img/S1_recap.png first, falls back if needed
+      showRecap(
+        'Year 8 Lesson 1: Computing Fundamentals Review',
+        'img/S1_recap.png',
+        [
+          '<strong>1. HARDWARE:</strong> The physical parts of a computer system (motherboard, CPU, RAM, keyboard, monitor).',
+          '<strong>2. SOFTWARE:</strong> The programs and instructions that control the hardware (system software like OS, and applications).',
+          '<strong>3. THE CPU:</strong> The central processing unit that executes instructions using the fetch-decode-execute cycle.',
+          '<strong>4. MEMORY & STORAGE:</strong> RAM gives fast, temporary (volatile) storage; long-term drives (HDD/SSD) preserve files when power is off.'
+        ]
+      );
     }
 
-    function renderCards() {
-      const container = document.getElementById('lessonsGrid');
-      container.innerHTML = '';
-
-      let lessonsToDisplay = [];
-
-      if (searchQuery) {
-        // Search across all years
-        Object.keys(curriculumData).forEach(y => {
-          curriculumData[y].lessons.forEach(l => {
-            if (l.title.toLowerCase().includes(searchQuery) || 
-                l.desc.toLowerCase().includes(searchQuery) ||
-                l.badge.toLowerCase().includes(searchQuery)) {
-              lessonsToDisplay.push({ ...l, yearContext: y.toUpperCase() });
-            }
-          });
-        });
-      } else {
-        lessonsToDisplay = curriculumData[activeYear].lessons;
-      }
-
-      if (lessonsToDisplay.length === 0) {
-        container.innerHTML = `
-          <div class="col-span-full py-16 text-center text-slate-400 bg-slate-900/40 rounded-2xl border border-slate-800">
-            <span class="text-4xl block mb-2">🔍</span>
-            <p class="font-semibold text-slate-200">No lessons found matching "${searchQuery}"</p>
-            <p class="text-xs text-slate-500 mt-1">Try searching for keywords like "Python", "Binary", "Loops", or "Gates"</p>
-          </div>
-        `;
-        return;
-      }
-
-      lessonsToDisplay.forEach((lesson, index) => {
-        const card = document.createElement('div');
-        card.className = "card-glass border border-slate-800/90 hover:border-cyan-500/50 rounded-2xl p-6 flex flex-col justify-between transition-all duration-300 hover:-translate-y-1 shadow-xl relative overflow-hidden group";
-        
-        card.innerHTML = `
-          <div class="absolute -top-12 -right-12 w-32 h-32 bg-cyan-500/5 rounded-full blur-2xl group-hover:bg-cyan-500/10 transition-all"></div>
-          <div>
-            <div class="flex items-start justify-between gap-3 mb-3">
-              <span class="text-3xl p-2.5 rounded-xl bg-slate-900/90 border border-slate-800/80 shadow-inner">${lesson.icon}</span>
-              <div class="flex flex-col items-end gap-1">
-                <span class="px-2.5 py-0.5 rounded-full text-[11px] font-semibold border ${lesson.badgeColor}">
-                  ${lesson.badge}
-                </span>
-                ${lesson.yearContext ? `<span class="text-[10px] text-cyan-400 font-mono font-bold">${lesson.yearContext}</span>` : ''}
-              </div>
-            </div>
-
-            <h3 class="text-lg font-bold text-slate-100 group-hover:text-cyan-300 transition-colors mb-2">
-              ${lesson.title}
-            </h3>
-            <p class="text-xs sm:text-sm text-slate-400 leading-relaxed mb-6">
-              ${lesson.desc}
-            </p>
-          </div>
-
-          <div class="grid grid-cols-2 gap-3 pt-4 border-t border-slate-800/70">
-            <button 
-              onclick="openRecapModal('${lesson.id}')"
-              class="w-full py-2.5 px-3 rounded-xl border border-slate-700/80 hover:border-slate-500 bg-slate-900/80 hover:bg-slate-800/90 text-slate-200 text-xs sm:text-sm font-semibold flex items-center justify-center gap-1.5 transition active:scale-95">
-              <span>📖</span> Recap
-            </button>
-            ${lesson.externalLink ? `
-            <a 
-              href="${lesson.externalLink}"
-              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-amber-500 to-yellow-500 hover:from-amber-400 hover:to-yellow-400 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-lg shadow-amber-500/20 active:scale-95 text-center">
-              <span>⚡</span> Pseudocode Lab ↗
-            </a>
-            ` : `
-            <button 
-              onclick="openInteractiveModal('${lesson.id}')"
-              class="w-full py-2.5 px-3 rounded-xl bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-400 hover:to-blue-500 text-slate-950 text-xs sm:text-sm font-bold flex items-center justify-center gap-1.5 transition shadow-lg shadow-cyan-500/20 active:scale-95">
-              <span>⚡</span> Interactive
-            </button>
-            `}
-          </div>
-        `;
-        container.appendChild(card);
-      });
-    }
-
-    function findLesson(id) {
-      for (const year in curriculumData) {
-        const found = curriculumData[year].lessons.find(l => l.id === id);
-        if (found) return found;
-      }
-      return null;
-    }
-
-    function openRecapModal(id) {
-      const lesson = findLesson(id);
-      if (!lesson) return;
-
-      document.getElementById('recapIcon').innerText = lesson.icon;
-      document.getElementById('recapModalTitle').innerText = lesson.title;
-      document.getElementById('recapModalSubtitle').innerText = `${lesson.badge} • Core Study Notes`;
-
-      let imagePreviewHtml = '';
-      if (lesson.recapImage) {
-        imagePreviewHtml = `
-          <div class="mb-4">
-            <div class="flex items-center justify-between mb-2">
-              <span class="text-xs font-semibold text-cyan-400 uppercase tracking-wider flex items-center gap-1.5 font-mono">
-                <span>🖼️</span> Lesson Visual Guide
-              </span>
-              <span class="text-[11px] text-slate-500 font-mono">${lesson.recapImage.src}</span>
-            </div>
-            <div class="relative group rounded-xl overflow-hidden border border-cyan-500/40 bg-slate-950/80 shadow-lg cursor-pointer transition hover:border-cyan-400"
-                 onclick="openLightbox('${lesson.recapImage.src}', '${lesson.recapImage.caption}')">
-              <!-- Responsive Image Preview with automatic extension cascade fallback -->
-              <div class="w-full flex items-center justify-center p-2 bg-gradient-to-b from-slate-950/60 to-slate-900/90">
-                <img 
-                  id="recapImgElement"
-                  src="${lesson.recapImage.src}.png" 
-                  alt="${lesson.recapImage.alt}" 
-                  class="max-h-60 w-auto rounded-lg object-contain shadow-md transition duration-300 group-hover:scale-[1.02]"
-                  onerror="handleImageFallback(this, '${lesson.recapImage.src}')"
-                />
-              </div>
-              <div class="absolute inset-0 bg-cyan-950/20 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center pointer-events-none">
-                <span class="px-3 py-1.5 rounded-lg bg-slate-900/90 border border-cyan-400 text-cyan-300 text-xs font-bold flex items-center gap-1.5 shadow-xl">
-                  🔍 Click to Enlarge
-                </span>
-              </div>
-              <div class="px-3 py-2 bg-slate-950/90 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
-                <span>${lesson.recapImage.caption}</span>
-                <span class="text-cyan-400 font-mono text-[10px]">Preview Ready</span>
-              </div>
-            </div>
-          </div>
-        `;
-      }
-
-      let keyTermsHtml = lesson.recap.keyTerms.map(kt => `
-        <div class="bg-slate-950/70 p-3 rounded-xl border border-slate-800">
-          <div class="font-mono text-cyan-400 font-bold text-xs mb-1">${kt.term}</div>
-          <div class="text-slate-300 text-xs">${kt.def}</div>
-        </div>
-      `).join('');
-
-      let takeawaysHtml = lesson.recap.takeaways.map(point => `
-        <li class="flex items-start gap-2 text-xs sm:text-sm text-slate-300">
-          <span class="text-cyan-400 mt-0.5">✦</span>
-          <span>${point}</span>
-        </li>
-      `).join('');
-
-      document.getElementById('recapModalContent').innerHTML = `
-        ${imagePreviewHtml}
-
-        <div>
-          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Lesson Overview</h4>
-          <p class="text-sm text-slate-200 leading-relaxed bg-slate-800/40 p-3.5 rounded-xl border border-slate-800">
-            ${lesson.recap.overview}
-          </p>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Key Vocabulary</h4>
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
-            ${keyTermsHtml}
-          </div>
-        </div>
-
-        <div>
-          <h4 class="text-xs font-semibold text-slate-400 uppercase tracking-wider mb-2">Essential Takeaways</h4>
-          <ul class="space-y-2 bg-slate-950/40 p-4 rounded-xl border border-slate-800/60">
-            ${takeawaysHtml}
-          </ul>
-        </div>
-      `;
-
-      document.getElementById('recapModal').classList.remove('hidden');
-      document.getElementById('recapModal').classList.add('flex');
-    }
-
-    // Handles fallback across extensions: .png -> .jpg -> .jpeg -> .svg -> extensionless -> SVG placeholder
-    function handleImageFallback(img, basePath) {
-      if (!img.dataset.stage) {
-        img.dataset.stage = "1";
-        img.src = `${basePath}.jpg`;
-      } else if (img.dataset.stage === "1") {
-        img.dataset.stage = "2";
-        img.src = `${basePath}.jpeg`;
-      } else if (img.dataset.stage === "2") {
-        img.dataset.stage = "3";
-        img.src = `${basePath}.svg`;
-      } else if (img.dataset.stage === "3") {
-        img.dataset.stage = "4";
-        img.src = basePath; // try extensionless
-      } else if (img.dataset.stage === "4") {
-        img.dataset.stage = "fallback";
-        // SVG Vector diagram fallback representing S1_recap Computing Principles
-        img.src = 'data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 350" width="700" height="350"><rect width="700" height="350" fill="%230b1329" rx="16"/><rect x="15" y="15" width="670" height="320" fill="none" stroke="%2338bdf8" stroke-width="2" stroke-dasharray="6,6" rx="12"/><text x="350" y="48" fill="%2338bdf8" font-size="20" font-family="monospace" font-weight="bold" text-anchor="middle">COMPUTING PRINCIPLES • S1_RECAP</text><rect x="60" y="110" width="110" height="85" rx="10" fill="%231e293b" stroke="%2338bdf8" stroke-width="2"/><text x="115" y="145" fill="%23f8fafc" font-size="14" font-family="sans-serif" font-weight="bold" text-anchor="middle">INPUT</text><text x="115" y="170" fill="%2394a3b8" font-size="11" font-family="sans-serif" text-anchor="middle">Keyboard/Mouse</text><rect x="290" y="95" width="120" height="115" rx="12" fill="%230284c7" stroke="%237dd3fc" stroke-width="3"/><text x="350" y="150" fill="%23ffffff" font-size="24" font-family="monospace" font-weight="900" text-anchor="middle">CPU</text><text x="350" y="175" fill="%23e0f2fe" font-size="10" font-family="sans-serif" text-anchor="middle">Process / F-D-E</text><rect x="530" y="110" width="110" height="85" rx="10" fill="%231e293b" stroke="%2338bdf8" stroke-width="2"/><text x="585" y="145" fill="%23f8fafc" font-size="14" font-family="sans-serif" font-weight="bold" text-anchor="middle">OUTPUT</text><text x="585" y="170" fill="%2394a3b8" font-size="11" font-family="sans-serif" text-anchor="middle">Monitor/Printer</text><rect x="295" y="245" width="110" height="60" rx="8" fill="%231e293b" stroke="%23818cf8" stroke-width="2"/><text x="350" y="275" fill="%23c7d2fe" font-size="12" font-family="sans-serif" font-weight="bold" text-anchor="middle">MEMORY (RAM)</text><path d="M 170 152 L 285 152" stroke="%2338bdf8" stroke-width="3" marker-end="url(%23arrow)"/><path d="M 415 152 L 525 152" stroke="%2338bdf8" stroke-width="3"/><path d="M 350 215 L 350 240" stroke="%23818cf8" stroke-width="3"/><text x="350" y="325" fill="%2364748b" font-size="11" font-family="sans-serif" text-anchor="middle">Eng. Sally Ezzat • KS3 Computing Hub</text></svg>';
+    // Fallback if image has .jpg or no extension locally
+    function handleImgError(image) {
+      if (image.src.endsWith('.png')) {
+        image.src = 'img/S1_recap.jpg';
+      } else if (image.src.endsWith('.jpg')) {
+        image.src = 'img/S1_recap';
       }
     }
-
-    function openLightbox(src, caption) {
-      const modal = document.getElementById('imageLightboxModal');
-      const img = document.getElementById('lightboxImg');
-      const cap = document.getElementById('lightboxCaption');
-      
-      const currentRecapImg = document.getElementById('recapImgElement');
-      img.src = currentRecapImg ? currentRecapImg.src : `${src}.png`;
-      cap.innerText = caption || `Visual: ${src}`;
-
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
-    }
-
-    function closeLightbox() {
-      const modal = document.getElementById('imageLightboxModal');
-      modal.classList.add('hidden');
-      modal.classList.remove('flex');
-    }
-
-    function openInteractiveModal(id) {
-      const lesson = findLesson(id);
-      if (!lesson) return;
-
-      document.getElementById('interactiveIcon').innerText = lesson.icon;
-      document.getElementById('interactiveModalTitle').innerText = lesson.title;
-      document.getElementById('interactiveModalDesc').innerText = `Hands-on activity: ${lesson.badge}`;
-
-      const container = document.getElementById('interactiveContainer');
-      container.innerHTML = '';
-
-      switch(lesson.interactiveType) {
-        case 'scratchLoop':
-          renderScratchLoopGame(container);
-          break;
-        case 'safetyQuiz':
-          renderSafetyChallenge(container);
-          break;
-        case 'binaryFlipper':
-          renderBinaryFlipper(container);
-          break;
-        case 'microbitSim':
-          renderMicrobitSimulator(container);
-          break;
-        case 'hardwareSorter':
-          renderHardwareSorter(container);
-          break;
-        case 'flowchartTester':
-          renderFlowchartSimulator(container);
-          break;
-        case 'externalLab':
-          container.innerHTML = `
-            <div class="p-6 text-center space-y-4">
-              <div class="text-4xl">🚀</div>
-              <h3 class="text-lg font-bold text-slate-100">Pseudocode Interactive Learning Lab</h3>
-              <p class="text-sm text-slate-400">Launch Eng. Sally Ezzat's specialized hands-on pseudocode interactive environment.</p>
-              <a href="${lesson.externalLink}" class="inline-flex items-center gap-2 px-6 py-2.5 bg-gradient-to-r from-amber-500 to-yellow-500 text-slate-950 font-bold rounded-xl shadow-lg transition hover:scale-105">
-                Open Pseudocode Lab ↗
-              </a>
-            </div>
-          `;
-          break;
-        case 'pythonRunner':
-          renderPythonPlayground(container);
-          break;
-        case 'networkPacketSim':
-          renderPacketSimulator(container);
-          break;
-        case 'phishingInspector':
-          renderPhishingDetective(container);
-          break;
-        case 'logicGateSim':
-          renderLogicGateSimulator(container);
-          break;
-        default:
-          container.innerHTML = `<p class="text-slate-400">Activity initializing soon...</p>`;
-      }
-
-      document.getElementById('interactiveModal').classList.remove('hidden');
-      document.getElementById('interactiveModal').classList.add('flex');
-    }
-
-    function closeModal(modalId) {
-      document.getElementById(modalId).classList.add('hidden');
-      document.getElementById(modalId).classList.remove('flex');
-    }
-
-    // Close on background click
-    window.addEventListener('click', (e) => {
-      const recap = document.getElementById('recapModal');
-      const interactive = document.getElementById('interactiveModal');
-      if (e.target === recap) closeModal('recapModal');
-      if (e.target === interactive) closeModal('interactiveModal');
-    });
-
-    // ==========================================
-    // INTERACTIVE TOOLS & MINI GAMES
-    // ==========================================
-
-    function renderScratchLoopGame(el) {
-      el.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-cyan-950/40 border border-cyan-800 rounded-xl text-xs text-cyan-200">
-            🎯 <strong>Goal:</strong> Move the Cat sprite to the Star. Instead of repeating 4 separate "Move Forward" blocks, configure a Repeat Loop!
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-            <!-- Stage simulation -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 flex flex-col items-center justify-center min-h-[190px]">
-              <div class="flex items-center gap-3 w-full justify-around p-3 bg-slate-950 rounded-lg border border-slate-800/80" id="scratchTrack">
-                <div id="scratchSprite" class="text-3xl transition-all duration-300">🐱</div>
-                <div class="w-8 h-8 rounded-full border border-dashed border-slate-700 flex items-center justify-center text-xs text-slate-500">1</div>
-                <div class="w-8 h-8 rounded-full border border-dashed border-slate-700 flex items-center justify-center text-xs text-slate-500">2</div>
-                <div class="w-8 h-8 rounded-full border border-dashed border-slate-700 flex items-center justify-center text-xs text-slate-500">3</div>
-                <div class="text-3xl" id="scratchStar">⭐</div>
-              </div>
-              <div id="scratchMsg" class="mt-3 text-xs font-mono text-slate-400">Position: Step 0</div>
-            </div>
-
-            <!-- Block configuration -->
-            <div class="bg-slate-900 border border-slate-800 rounded-xl p-4 space-y-3 font-mono text-xs">
-              <div class="bg-amber-600 text-amber-950 px-3 py-1.5 rounded-lg font-bold">
-                when 🟢 clicked
-              </div>
-              <div class="bg-amber-500 text-slate-950 p-3 rounded-lg font-bold space-y-2 border-l-4 border-amber-700">
-                <div class="flex items-center gap-2">
-                  <span>repeat</span>
-                  <input type="number" id="loopCountInput" min="1" max="6" value="4" class="w-12 px-1.5 py-0.5 rounded bg-white text-slate-900 font-bold text-center">
-                  <span>times</span>
-                </div>
-                <div class="ml-4 bg-blue-500 text-white px-3 py-1 rounded shadow-sm">
-                  move (1 step forward)
-                </div>
-              </div>
-
-              <div class="flex gap-2 pt-2">
-                <button onclick="runScratchCode()" class="flex-1 py-2 bg-emerald-600 hover:bg-emerald-500 text-white font-bold rounded-lg transition">
-                  ▶ Run Code
-                </button>
-                <button onclick="resetScratchCode()" class="px-3 py-2 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-lg">
-                  Reset
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-    }
-
-    let scratchStep = 0;
-    function runScratchCode() {
-      const times = parseInt(document.getElementById('loopCountInput').value) || 1;
-      const sprite = document.getElementById('scratchSprite');
-      const msg = document.getElementById('scratchMsg');
-
-      let current = 0;
-      scratchStep = 0;
-      sprite.style.transform = `translateX(0px)`;
-
-      const interval = setInterval(() => {
-        if (current < times) {
-          current++;
-          scratchStep = current;
-          // Step displacement
-          sprite.style.transform = `translateX(${scratchStep * 44}px)`;
-          msg.innerText = `Executing step ${scratchStep}...`;
-        } else {
-          clearInterval(interval);
-          if (times === 4) {
-            msg.innerHTML = `<span class="text-emerald-400 font-bold">✨ Brilliant! You reached the Star with exactly 4 loop cycles!</span>`;
-          } else if (times < 4) {
-            msg.innerHTML = `<span class="text-amber-400">Undershot! The sprite only moved ${times} steps. Needs 4!</span>`;
-          } else {
-            msg.innerHTML = `<span class="text-red-400">Overshot! You ran ${times} steps and past the star.</span>`;
-          }
-        }
-      }, 350);
-    }
-
-    function resetScratchCode() {
-      const sprite = document.getElementById('scratchSprite');
-      if (sprite) sprite.style.transform = `translateX(0px)`;
-      const msg = document.getElementById('scratchMsg');
-      if (msg) msg.innerText = `Position: Step 0`;
-    }
-
-    function renderSafetyChallenge(el) {
-      el.innerHTML = `
-        <div class="space-y-4 text-xs sm:text-sm">
-          <div class="p-3 bg-emerald-950/40 border border-emerald-800 rounded-xl text-emerald-200">
-            🛡️ <strong>Scenario Analysis:</strong> You receive a message from a friend in an online game saying: 
-            <em>"Hey, give me your password and birth year so I can unlock free VIP coins on your account!"</em>
-          </div>
-
-          <div class="space-y-2.5" id="safetyOptions">
-            <button onclick="checkSafetyChoice(1)" class="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition flex items-center justify-between">
-              <span>A) Give them the info since they are your gaming friend.</span>
-              <span class="text-slate-500">Option 1</span>
-            </button>
-            <button onclick="checkSafetyChoice(2)" class="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition flex items-center justify-between">
-              <span>B) Refuse and report/tell a trusted adult because legitimate services never ask for passwords.</span>
-              <span class="text-slate-500">Option 2</span>
-            </button>
-            <button onclick="checkSafetyChoice(3)" class="w-full text-left p-3 rounded-xl bg-slate-900 border border-slate-800 hover:border-slate-600 transition flex items-center justify-between">
-              <span>C) Change your password to 123456 and send that instead.</span>
-              <span class="text-slate-500">Option 3</span>
-            </button>
-          </div>
-
-          <div id="safetyFeedback" class="mt-4 p-3 rounded-xl hidden"></div>
-        </div>
-      `;
-    }
-
-    function checkSafetyChoice(choice) {
-      const feedback = document.getElementById('safetyFeedback');
-      feedback.classList.remove('hidden');
-      if (choice === 2) {
-        feedback.className = "mt-4 p-3 rounded-xl bg-emerald-950/70 border border-emerald-600 text-emerald-300 text-xs";
-        feedback.innerHTML = "✅ <strong>Spot on!</strong> Never share passwords or PII. Real platforms have automated upgrades and never request secrets.";
-      } else {
-        feedback.className = "mt-4 p-3 rounded-xl bg-red-950/70 border border-red-600 text-red-300 text-xs";
-        feedback.innerHTML = "❌ <strong>High Risk!</strong> That is a social engineering trap or compromised account. Correct action is (B).";
-      }
-    }
-
-    function renderBinaryFlipper(el) {
-      el.innerHTML = `
-        <div class="space-y-5 text-center">
-          <p class="text-xs text-slate-400">Click on any bit switch below to toggle between 0 (OFF) and 1 (ON). Observe how the column weights sum up into the decimal number!</p>
-          
-          <!-- 4 Bit switches -->
-          <div class="flex justify-center items-center gap-3 sm:gap-6">
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-mono text-cyan-400 font-bold">Weight: 8</span>
-              <button onclick="toggleBit(3)" id="bit3" class="w-16 h-20 rounded-2xl bg-slate-800 border-2 border-slate-700 text-2xl font-mono font-bold flex items-center justify-center transition-all hover:border-cyan-400">0</button>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-mono text-cyan-400 font-bold">Weight: 4</span>
-              <button onclick="toggleBit(2)" id="bit2" class="w-16 h-20 rounded-2xl bg-slate-800 border-2 border-slate-700 text-2xl font-mono font-bold flex items-center justify-center transition-all hover:border-cyan-400">0</button>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-mono text-cyan-400 font-bold">Weight: 2</span>
-              <button onclick="toggleBit(1)" id="bit1" class="w-16 h-20 rounded-2xl bg-slate-800 border-2 border-slate-700 text-2xl font-mono font-bold flex items-center justify-center transition-all hover:border-cyan-400">0</button>
-            </div>
-            <div class="flex flex-col items-center gap-2">
-              <span class="text-xs font-mono text-cyan-400 font-bold">Weight: 1</span>
-              <button onclick="toggleBit(0)" id="bit0" class="w-16 h-20 rounded-2xl bg-slate-800 border-2 border-slate-700 text-2xl font-mono font-bold flex items-center justify-center transition-all hover:border-cyan-400">0</button>
-            </div>
-          </div>
-
-          <!-- Calculated decimal readout -->
-          <div class="p-4 bg-slate-950 border border-slate-800 rounded-xl inline-block max-w-sm w-full">
-            <div class="text-xs text-slate-500 uppercase tracking-widest font-mono">Calculated Decimal Value</div>
-            <div id="binaryDecDisplay" class="text-4xl font-extrabold text-cyan-300 font-mono my-1">0</div>
-            <div id="binaryCalcFormula" class="text-xs text-slate-400 font-mono">(0×8) + (0×4) + (0×2) + (0×1) = 0</div>
-          </div>
-
-          <div class="flex justify-center gap-2">
-            <button onclick="setSampleBinary([1,0,1,0])" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Set 10 (1010)</button>
-            <button onclick="setSampleBinary([1,1,1,1])" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Set 15 (1111)</button>
-            <button onclick="setSampleBinary([0,1,0,1])" class="text-xs px-3 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300">Set 5 (0101)</button>
-          </div>
-        </div>
-      `;
-      bitsState = [0, 0, 0, 0];
-    }
-
-    let bitsState = [0, 0, 0, 0]; // index 0 = weight 1, 1 = 2, 2 = 4, 3 = 8
-
-    function toggleBit(index) {
-      bitsState[index] = bitsState[index] === 0 ? 1 : 0;
-      updateBitUI();
-    }
-
-    function setSampleBinary(arr) {
-      // arr is [8, 4, 2, 1]
-      bitsState[3] = arr[0];
-      bitsState[2] = arr[1];
-      bitsState[1] = arr[2];
-      bitsState[0] = arr[3];
-      updateBitUI();
-    }
-
-    function updateBitUI() {
-      for (let i = 0; i < 4; i++) {
-        const btn = document.getElementById(`bit${i}`);
-        if (!btn) return;
-        btn.innerText = bitsState[i];
-        if (bitsState[i] === 1) {
-          btn.className = "w-16 h-20 rounded-2xl bg-cyan-500 text-slate-950 font-bold border-2 border-cyan-300 text-2xl font-mono flex items-center justify-center shadow-lg shadow-cyan-500/30 scale-105 transition-all";
-        } else {
-          btn.className = "w-16 h-20 rounded-2xl bg-slate-800 border-2 border-slate-700 text-2xl font-mono font-bold flex items-center justify-center transition-all hover:border-cyan-400 text-slate-300";
-        }
-      }
-
-      const total = (bitsState[3] * 8) + (bitsState[2] * 4) + (bitsState[1] * 2) + (bitsState[0] * 1);
-      document.getElementById('binaryDecDisplay').innerText = total;
-      document.getElementById('binaryCalcFormula').innerText = 
-        `(${bitsState[3]}×8) + (${bitsState[2]}×4) + (${bitsState[1]}×2) + (${bitsState[0]}×1) = ${total}`;
-    }
-
-    function renderMicrobitSimulator(el) {
-      el.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-purple-950/40 border border-purple-800 rounded-xl text-xs text-purple-200">
-            📟 <strong>Physical Sensor Sim:</strong> Push Button A or B to trigger different software states, or adjust the temperature slider!
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 items-center">
-            <!-- Microbit board -->
-            <div class="bg-slate-900 border-2 border-slate-700 rounded-2xl p-5 shadow-2xl relative flex flex-col items-center">
-              <div class="w-full flex justify-between items-center mb-3">
-                <span class="text-xs font-mono font-bold text-slate-400 tracking-wider">BBC micro:bit v2</span>
-                <span class="w-2.5 h-2.5 rounded-full bg-amber-400 animate-pulse"></span>
-              </div>
-
-              <!-- 5x5 LED Matrix -->
-              <div class="grid grid-cols-5 gap-1.5 p-3 bg-slate-950 rounded-xl border border-slate-800" id="microbitMatrix">
-                ${Array(25).fill(0).map((_, i) => `<div id="led-${i}" class="w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700/60 transition-colors"></div>`).join('')}
-              </div>
-
-              <!-- Hardware Buttons -->
-              <div class="w-full flex justify-between mt-4 px-2">
-                <button onclick="pressMicrobitBtn('A')" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-600 text-xs font-bold text-slate-200 hover:bg-slate-700 active:scale-90 transition">
-                  [Button A]
-                </button>
-                <button onclick="pressMicrobitBtn('B')" class="px-3 py-1.5 rounded-lg bg-slate-800 border border-slate-600 text-xs font-bold text-slate-200 hover:bg-slate-700 active:scale-90 transition">
-                  [Button B]
-                </button>
-              </div>
-            </div>
-
-            <!-- Controls and Sensor sliders -->
-            <div class="space-y-3 bg-slate-900 p-4 rounded-xl border border-slate-800 text-xs">
-              <div>
-                <label class="block text-slate-400 mb-1">Thermometer Sensor (°C)</label>
-                <div class="flex items-center gap-3">
-                  <input type="range" id="tempSlider" min="0" max="45" value="24" oninput="updateTempSensor(this.value)" class="w-full accent-purple-500">
-                  <span id="tempValue" class="font-mono text-purple-400 font-bold w-12">24°C</span>
-                </div>
-              </div>
-
-              <div class="p-3 bg-slate-950 rounded-lg border border-slate-800 font-mono text-[11px] text-slate-400" id="microbitConsole">
-                > System initialized.<br>> Press [Button A] for Happy Face.<br>> Press [Button B] for Heart.
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      // Render initial smile
-      drawMatrixShape('happy');
-    }
-
-    function drawMatrixShape(type) {
-      const happy = [6, 8, 16, 22, 23, 24, 18];
-      const heart = [1, 3, 5, 6, 7, 8, 9, 11, 12, 13, 17];
-      const fire = [2, 6, 7, 8, 11, 12, 13, 16, 17, 18, 22];
-
-      for (let i = 0; i < 25; i++) {
-        const dot = document.getElementById(`led-${i}`);
-        if (!dot) return;
-        let active = false;
-        if (type === 'happy' && happy.includes(i)) active = true;
-        if (type === 'heart' && heart.includes(i)) active = true;
-        if (type === 'hot' && fire.includes(i)) active = true;
-
-        if (active) {
-          dot.className = "w-3.5 h-3.5 rounded-full bg-red-500 shadow-md shadow-red-500/80";
-        } else {
-          dot.className = "w-3.5 h-3.5 rounded-full bg-slate-800 border border-slate-700/60";
-        }
-      }
-    }
-
-    function pressMicrobitBtn(btn) {
-      const c = document.getElementById('microbitConsole');
-      if (btn === 'A') {
-        drawMatrixShape('happy');
-        c.innerHTML = `> [Input Event]: Button A pressed.<br>> Display: Happy Face :)`;
-      } else {
-        drawMatrixShape('heart');
-        c.innerHTML = `> [Input Event]: Button B pressed.<br>> Display: Heart icon <3`;
-      }
-    }
-
-    function updateTempSensor(val) {
-      document.getElementById('tempValue').innerText = `${val}°C`;
-      const c = document.getElementById('microbitConsole');
-      if (val >= 35) {
-        drawMatrixShape('hot');
-        c.innerHTML = `> [Temp Sensor]: ${val}°C (HIGH THRESHOLD!)<br>> Displaying warning glyph!`;
-      } else {
-        drawMatrixShape('happy');
-        c.innerHTML = `> [Temp Sensor]: ${val}°C (Normal conditions).`;
-      }
-    }
-
-    function renderHardwareSorter(el) {
-      el.innerHTML = `
-        <div class="space-y-4 text-xs sm:text-sm">
-          <div class="p-3 bg-blue-950/40 border border-blue-800 rounded-xl text-blue-200">
-            ⚙️ <strong>Component Sorter:</strong> Categorize whether each component is <strong>Hardware</strong> (physical) or <strong>Software</strong> (programs).
-          </div>
-
-          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="hwCards">
-            <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between" id="item-0">
-              <span class="font-medium text-slate-200">1. Central Processing Unit (CPU)</span>
-              <div class="flex gap-1.5">
-                <button onclick="sortItem(0, 'hw', true)" class="px-2.5 py-1 bg-slate-800 hover:bg-blue-600 rounded text-xs transition">HW</button>
-                <button onclick="sortItem(0, 'sw', false)" class="px-2.5 py-1 bg-slate-800 hover:bg-purple-600 rounded text-xs transition">SW</button>
-              </div>
-            </div>
-
-            <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between" id="item-1">
-              <span class="font-medium text-slate-200">2. Windows 11 Operating System</span>
-              <div class="flex gap-1.5">
-                <button onclick="sortItem(1, 'hw', false)" class="px-2.5 py-1 bg-slate-800 hover:bg-blue-600 rounded text-xs transition">HW</button>
-                <button onclick="sortItem(1, 'sw', true)" class="px-2.5 py-1 bg-slate-800 hover:bg-purple-600 rounded text-xs transition">SW</button>
-              </div>
-            </div>
-
-            <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between" id="item-2">
-              <span class="font-medium text-slate-200">3. 16GB DDR5 RAM Stick</span>
-              <div class="flex gap-1.5">
-                <button onclick="sortItem(2, 'hw', true)" class="px-2.5 py-1 bg-slate-800 hover:bg-blue-600 rounded text-xs transition">HW</button>
-                <button onclick="sortItem(2, 'sw', false)" class="px-2.5 py-1 bg-slate-800 hover:bg-purple-600 rounded text-xs transition">SW</button>
-              </div>
-            </div>
-
-            <div class="p-3 bg-slate-900 border border-slate-800 rounded-xl flex items-center justify-between" id="item-3">
-              <span class="font-medium text-slate-200">4. Google Chrome Web Browser</span>
-              <div class="flex gap-1.5">
-                <button onclick="sortItem(3, 'hw', false)" class="px-2.5 py-1 bg-slate-800 hover:bg-blue-600 rounded text-xs transition">HW</button>
-                <button onclick="sortItem(3, 'sw', true)" class="px-2.5 py-1 bg-slate-800 hover:bg-purple-600 rounded text-xs transition">SW</button>
-              </div>
-            </div>
-          </div>
-
-          <div id="hwResult" class="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-400">
-            Click the HW or SW tag for all items to verify!
-          </div>
-        </div>
-      `;
-      hwScores = {};
-    }
-
-    let hwScores = {};
-    function sortItem(id, type, isCorrect) {
-      hwScores[id] = isCorrect;
-      const el = document.getElementById(`item-${id}`);
-      if (isCorrect) {
-        el.className = "p-3 bg-emerald-950/40 border border-emerald-600 rounded-xl flex items-center justify-between";
-      } else {
-        el.className = "p-3 bg-red-950/40 border border-red-600 rounded-xl flex items-center justify-between";
-      }
-
-      if (Object.keys(hwScores).length === 4) {
-        const correctCount = Object.values(hwScores).filter(v => v === true).length;
-        const res = document.getElementById('hwResult');
-        if (correctCount === 4) {
-          res.className = "p-3 rounded-xl bg-emerald-950 border border-emerald-500 font-mono text-xs text-emerald-300";
-          res.innerHTML = "🎉 Excellent! 4/4 perfect classification of Physical Hardware vs Soft Instructions.";
-        } else {
-          res.innerHTML = `Completed: ${correctCount}/4 correct. Review the red entries!`;
-        }
-      }
-    }
-
-    function renderFlowchartSimulator(el) {
-      el.innerHTML = `
-        <div class="space-y-4 text-xs sm:text-sm">
-          <div class="p-3 bg-pink-950/40 border border-pink-800 rounded-xl text-pink-200">
-            🔀 <strong>Algorithm Decision Trace:</strong> Test this conditional branching flowchart algorithm for an automatic heating regulator.
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 p-4 rounded-xl flex flex-col items-center space-y-3 font-mono">
-            <div class="px-4 py-1.5 bg-slate-800 border border-slate-600 rounded-full text-slate-300 text-xs">
-              [START] Terminal
-            </div>
-            <div class="text-slate-500">↓</div>
-            <div class="px-4 py-2 bg-blue-950 border border-blue-700 text-blue-200 rounded-lg text-xs">
-              Read currentRoomTemp = <span id="flowTempDisplay" class="font-bold text-cyan-300">18°C</span>
-            </div>
-            <div class="text-slate-500">↓</div>
-            <div class="px-4 py-3 bg-amber-950/80 border-2 border-amber-600 rotate-0 text-amber-200 rounded-lg text-xs font-bold text-center">
-              IS roomTemp < 20°C ?
-            </div>
-
-            <!-- Branches -->
-            <div class="grid grid-cols-2 gap-8 w-full max-w-sm text-center pt-2">
-              <div class="space-y-2">
-                <span class="text-emerald-400 font-bold text-xs">[YES / TRUE]</span>
-                <div class="p-2 bg-emerald-950 border border-emerald-700 text-emerald-200 rounded text-[11px]" id="branchYes">
-                  Action: Turn Heater ON 🔥
-                </div>
-              </div>
-              <div class="space-y-2">
-                <span class="text-red-400 font-bold text-xs">[NO / FALSE]</span>
-                <div class="p-2 bg-slate-950 border border-slate-800 text-slate-400 rounded text-[11px]" id="branchNo">
-                  Action: Turn Heater OFF ❄️
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div class="flex items-center gap-4 bg-slate-900 p-3 rounded-xl border border-slate-800">
-            <span class="text-xs text-slate-400">Simulate Room Temperature:</span>
-            <input type="range" min="14" max="28" value="18" oninput="testFlowchart(this.value)" class="w-full accent-pink-500">
-          </div>
-        </div>
-      `;
-    }
-
-    function testFlowchart(val) {
-      document.getElementById('flowTempDisplay').innerText = `${val}°C`;
-      const yesBox = document.getElementById('branchYes');
-      const noBox = document.getElementById('branchNo');
-
-      if (parseInt(val) < 20) {
-        yesBox.className = "p-2 bg-emerald-600 text-slate-950 font-bold rounded text-[11px] shadow-lg shadow-emerald-500/40";
-        noBox.className = "p-2 bg-slate-950 border border-slate-800 text-slate-500 rounded text-[11px]";
-      } else {
-        yesBox.className = "p-2 bg-slate-950 border border-slate-800 text-slate-500 rounded text-[11px]";
-        noBox.className = "p-2 bg-cyan-600 text-slate-950 font-bold rounded text-[11px] shadow-lg shadow-cyan-500/40";
-      }
-    }
-
-    function renderPythonPlayground(el) {
-      el.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-yellow-950/40 border border-yellow-800 rounded-xl text-xs text-yellow-200">
-            🐍 <strong>Interactive Python Interpreter:</strong> Edit the code or select a pre-made snippet, then click "Execute Code" to simulate output.
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-            <div class="space-y-2">
-              <div class="flex justify-between items-center text-xs text-slate-400">
-                <span class="font-mono">main.py</span>
-                <div class="flex gap-1">
-                  <button onclick="loadPySnippet('hello')" class="px-2 py-0.5 bg-slate-800 rounded hover:text-white">Greeting</button>
-                  <button onclick="loadPySnippet('loop')" class="px-2 py-0.5 bg-slate-800 rounded hover:text-white">For Loop</button>
-                  <button onclick="loadPySnippet('math')" class="px-2 py-0.5 bg-slate-800 rounded hover:text-white">Variables</button>
-                </div>
-              </div>
-              <textarea id="pythonEditor" rows="8" class="w-full bg-slate-950 border border-slate-800 rounded-xl p-3 font-mono text-xs text-cyan-300 focus:outline-none focus:border-cyan-500 leading-relaxed resize-none"></textarea>
-              <button onclick="executePythonMock()" class="w-full py-2 bg-yellow-500 hover:bg-yellow-400 text-slate-950 font-bold rounded-xl text-xs flex items-center justify-center gap-2 transition">
-                <span>▶</span> Execute Code
-              </button>
-            </div>
-
-            <!-- Terminal Output -->
-            <div class="space-y-2">
-              <span class="text-xs text-slate-400 font-mono">Terminal Output [stdout]</span>
-              <div id="pyConsole" class="h-48 bg-black/90 border border-slate-800 rounded-xl p-3 font-mono text-xs text-emerald-400 overflow-y-auto whitespace-pre-wrap">
-                >>> Python 3.11 ready. Click 'Execute Code'.
-              </div>
-            </div>
-          </div>
-        </div>
-      `;
-      loadPySnippet('loop');
-    }
-
-    function loadPySnippet(type) {
-      const editor = document.getElementById('pythonEditor');
-      if (type === 'hello') {
-        editor.value = `# Greeting Program\nstudent_name = "Sally's Student"\nprint("Welcome to Computing class, " + student_name)!\nprint("Year: 8 | Status: Ready to Code")`;
-      } else if (type === 'loop') {
-        editor.value = `# Range Loop Simulation\nfor count in range(1, 5):\n    print(f"Step {count}: Computing byte processed")\nprint("Process Completed successfully!")`;
-      } else if (type === 'math') {
-        editor.value = `# Math & Variable Casting\nwidth = 8\nheight = 5\narea = width * height\nprint(f"Rectangle Area = {area} sq units")`;
-      }
-    }
-
-    function executePythonMock() {
-      const code = document.getElementById('pythonEditor').value;
-      const term = document.getElementById('pyConsole');
-      term.innerHTML = ">>> Executing script...\n";
-
-      setTimeout(() => {
-        let lines = code.split('\n');
-        let output = "";
-
-        for (let l of lines) {
-          l = l.trim();
-          if (l.startsWith("print(")) {
-            let inside = l.slice(6, -1);
-            // Quick strip quotes or parse simple variables
-            inside = inside.replace(/["']/g, '');
-            inside = inside.replace('fRectangle Area = {area} sq units', 'Rectangle Area = 40 sq units');
-            inside = inside.replace('fStep {count}: Computing byte processed', 'Step 1: Computing byte processed\nStep 2: Computing byte processed\nStep 3: Computing byte processed\nStep 4: Computing byte processed');
-            output += inside + "\n";
-          }
-        }
-
-        if (!output) {
-          output = "Process finished with exit code 0 (No output printed).";
-        }
-        term.innerText = output;
-      }, 300);
-    }
-
-    function renderPacketSimulator(el) {
-      el.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-teal-950/40 border border-teal-800 rounded-xl text-xs text-teal-200">
-            📡 <strong>Packet Switching:</strong> Watch how an email is split into discrete numbered IP packets that route independently to their destination!
-          </div>
-
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col items-center justify-between min-h-[200px] relative overflow-hidden">
-            <!-- Node Path -->
-            <div class="w-full flex justify-between items-center relative z-10">
-              <div class="text-center">
-                <div class="w-12 h-12 rounded-xl bg-blue-600 flex items-center justify-center text-lg font-bold">💻</div>
-                <span class="text-[10px] font-mono text-slate-300 mt-1 block">Sender PC<br>192.168.1.10</span>
-              </div>
-
-              <!-- Animated Router Hub -->
-              <div class="text-center">
-                <div class="w-12 h-12 rounded-xl bg-purple-600 flex items-center justify-center text-lg font-bold animate-pulse">🔄</div>
-                <span class="text-[10px] font-mono text-slate-300 mt-1 block">ISP Router<br>Gateway</span>
-              </div>
-
-              <div class="text-center">
-                <div class="w-12 h-12 rounded-xl bg-emerald-600 flex items-center justify-center text-lg font-bold">🖥️</div>
-                <span class="text-[10px] font-mono text-slate-300 mt-1 block">Web Server<br>142.250.190.46</span>
-              </div>
-            </div>
-
-            <!-- Packet track -->
-            <div class="w-full my-4 py-2 bg-slate-950 rounded-lg border border-slate-800 px-3 flex items-center gap-2 overflow-hidden" id="packetLane">
-              <span class="text-xs text-slate-500 font-mono">Packets Ready:</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-900 text-cyan-300 font-mono text-[10px]" id="p1">PKT #1 [Header/Data]</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-900 text-cyan-300 font-mono text-[10px]" id="p2">PKT #2 [Data]</span>
-              <span class="px-2 py-0.5 rounded bg-cyan-900 text-cyan-300 font-mono text-[10px]" id="p3">PKT #3 [Checksum]</span>
-            </div>
-
-            <button onclick="dispatchPackets()" class="px-5 py-2 bg-teal-500 hover:bg-teal-400 text-slate-950 font-bold rounded-xl text-xs transition">
-              🚀 Transmit Packets over Internet
-            </button>
-          </div>
-
-          <div id="packetStatus" class="text-xs text-slate-400 font-mono text-center">Status: Ready to transmit payload</div>
-        </div>
-      `;
-    }
-
-    function dispatchPackets() {
-      const s = document.getElementById('packetStatus');
-      const p1 = document.getElementById('p1');
-      const p2 = document.getElementById('p2');
-      const p3 = document.getElementById('p3');
-
-      s.innerHTML = "<span class='text-cyan-400'>Splitting data into 3 TCP/IP packets with sequence headers...</span>";
-      
-      setTimeout(() => {
-        p1.className = "px-2 py-0.5 rounded bg-amber-600 text-slate-950 font-bold font-mono text-[10px] animate-bounce";
-        s.innerHTML = "Packet #1 routed via Router Node Alpha...";
-      }, 500);
-
-      setTimeout(() => {
-        p2.className = "px-2 py-0.5 rounded bg-amber-600 text-slate-950 font-bold font-mono text-[10px] animate-bounce";
-        s.innerHTML = "Packet #2 routed via Router Node Beta...";
-      }, 1000);
-
-      setTimeout(() => {
-        p3.className = "px-2 py-0.5 rounded bg-amber-600 text-slate-950 font-bold font-mono text-[10px] animate-bounce";
-        s.innerHTML = "Packet #3 arrived. Reassembling payload using checksum verification...";
-      }, 1500);
-
-      setTimeout(() => {
-        p1.className = "px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-[10px]";
-        p2.className = "px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-[10px]";
-        p3.className = "px-2 py-0.5 rounded bg-emerald-500 text-slate-950 font-mono text-[10px]";
-        s.innerHTML = "<span class='text-emerald-400 font-bold'>✔ 100% Data Received! 0% Packet Loss. Connection closed gracefully.</span>";
-      }, 2200);
-    }
-
-    function renderPhishingDetective(el) {
-      el.innerHTML = `
-        <div class="space-y-4 text-xs sm:text-sm">
-          <div class="p-3 bg-red-950/40 border border-red-800 rounded-xl text-red-200">
-            🔍 <strong>Phishing Detective:</strong> Review this urgent inbox message. Find and click the 3 suspicious red flags!
-          </div>
-
-          <!-- Fake Email client -->
-          <div class="bg-slate-900 border border-slate-700 rounded-xl p-4 space-y-3 font-sans">
-            <div class="border-b border-slate-800 pb-2 space-y-1 text-xs">
-              <div class="flex items-center gap-2">
-                <span class="text-slate-400">From:</span>
-                <button onclick="flagRedFlag('from')" id="flag-from" class="text-cyan-400 hover:underline font-mono bg-slate-950 px-2 py-0.5 rounded">
-                  security-alert@support-paypal-update-99.net
-                </button>
-              </div>
-              <div>
-                <span class="text-slate-400">Subject:</span>
-                <span class="font-bold text-red-400">IMMEDIATE ACTION REQUIRED: Account will be TERMINATED in 10 minutes!!</span>
-              </div>
-            </div>
-
-            <div class="text-slate-200 leading-relaxed text-xs sm:text-sm space-y-3">
-              <p>Dear <button onclick="flagRedFlag('greeting')" id="flag-greeting" class="hover:underline font-bold text-amber-400 bg-slate-950 px-1 rounded">Valued Customer</button>,</p>
-              <p>We detected unauthorized login attempts from Damietta, Egypt. You must verify your credit card details immediately.</p>
-              
-              <div class="text-center py-2">
-                <button onclick="flagRedFlag('link')" id="flag-link" class="px-5 py-2.5 bg-red-600 hover:bg-red-500 text-white font-bold rounded-xl text-xs">
-                  👉 Click Here To Verify Credentials Instantly
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div id="phishingScore" class="p-3 rounded-xl bg-slate-950 border border-slate-800 font-mono text-xs text-slate-400">
-            Flags identified: 0 / 3. (Click the suspicious components above!)
-          </div>
-        </div>
-      `;
-      phishFlags = new Set();
-    }
-
-    let phishFlags = new Set();
-    function flagRedFlag(flagName) {
-      phishFlags.add(flagName);
-      const btn = document.getElementById(`flag-${flagName}`);
-      if (btn) {
-        btn.classList.add('ring-2', 'ring-emerald-400', 'bg-emerald-950');
-      }
-
-      const scoreEl = document.getElementById('phishingScore');
-      scoreEl.innerText = `Flags identified: ${phishFlags.size} / 3.`;
-
-      if (phishFlags.size === 3) {
-        scoreEl.className = "p-3 rounded-xl bg-emerald-950 border border-emerald-500 font-mono text-xs text-emerald-300";
-        scoreEl.innerHTML = "🎯 <strong>Cyber Detective Badge Earned!</strong> You found all 3 flags: (1) Spoofed Domain, (2) Generic 'Valued Customer' Greeting, (3) Artificial Urgency / Suspicious Verification Button!";
-      }
-    }
-
-    function renderLogicGateSimulator(el) {
-      el.innerHTML = `
-        <div class="space-y-4">
-          <div class="p-3 bg-indigo-950/40 border border-indigo-800 rounded-xl text-xs text-indigo-200">
-            ⚡💡 <strong>Boolean Logic Simulator:</strong> Switch inputs A and B, or toggle the Gate Type (AND, OR, NOT) to evaluate physical circuit outputs.
-          </div>
-
-          <!-- Circuit board -->
-          <div class="bg-slate-900 border border-slate-800 rounded-xl p-5 flex flex-col items-center">
-            
-            <div class="flex items-center justify-between w-full max-w-md gap-4">
-              <!-- Inputs -->
-              <div class="flex flex-col gap-4">
-                <button onclick="toggleGateInput('A')" id="gateInputA" class="px-4 py-2 rounded-xl bg-slate-800 border-2 border-slate-700 text-xs font-mono font-bold hover:border-cyan-400">
-                  Input A: 0 (LOW)
-                </button>
-                <button onclick="toggleGateInput('B')" id="gateInputB" class="px-4 py-2 rounded-xl bg-slate-800 border-2 border-slate-700 text-xs font-mono font-bold hover:border-cyan-400">
-                  Input B: 0 (LOW)
-                </button>
-              </div>
-
-              <!-- Logic Gate Chip -->
-              <div class="px-6 py-8 rounded-2xl bg-indigo-950 border-2 border-indigo-500 shadow-xl flex flex-col items-center">
-                <span class="text-xs text-indigo-300 font-mono font-semibold">GATE</span>
-                <span id="currentGateType" class="text-2xl font-black text-white font-mono my-1">AND</span>
-                <div class="flex gap-1 mt-2">
-                  <button onclick="switchGateType('AND')" class="px-1.5 py-0.5 rounded bg-indigo-900 text-[10px] text-white">AND</button>
-                  <button onclick="switchGateType('OR')" class="px-1.5 py-0.5 rounded bg-indigo-900 text-[10px] text-white">OR</button>
-                  <button onclick="switchGateType('NOT')" class="px-1.5 py-0.5 rounded bg-indigo-900 text-[10px] text-white">NOT</button>
-                </div>
-              </div>
-
-              <!-- Output Light Bulb -->
-              <div class="flex flex-col items-center">
-                <div id="gateBulb" class="w-14 h-14 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-2xl transition-all duration-300">
-                  💡
-                </div>
-                <span id="gateOutputLabel" class="text-xs font-mono font-bold text-slate-400 mt-2">Output: 0</span>
-              </div>
-            </div>
-
-            <!-- Truth table preview -->
-            <div class="w-full max-w-md mt-6 pt-4 border-t border-slate-800 text-xs text-slate-400 font-mono text-center" id="truthTableSummary">
-              Rule: AND outputs 1 only when BOTH inputs are 1.
-            </div>
-          </div>
-        </div>
-      `;
-      gateInA = 0;
-      gateInB = 0;
-      currentGate = 'AND';
-      updateLogicCircuit();
-    }
-
-    let gateInA = 0;
-    let gateInB = 0;
-    let currentGate = 'AND';
-
-    function toggleGateInput(which) {
-      if (which === 'A') gateInA = gateInA === 0 ? 1 : 0;
-      if (which === 'B') gateInB = gateInB === 0 ? 1 : 0;
-      updateLogicCircuit();
-    }
-
-    function switchGateType(type) {
-      currentGate = type;
-      document.getElementById('currentGateType').innerText = type;
-      // Disable Input B if NOT gate
-      const btnB = document.getElementById('gateInputB');
-      if (type === 'NOT') {
-        btnB.style.opacity = '0.3';
-        btnB.style.pointerEvents = 'none';
-      } else {
-        btnB.style.opacity = '1';
-        btnB.style.pointerEvents = 'auto';
-      }
-      updateLogicCircuit();
-    }
-
-    function updateLogicCircuit() {
-      const btnA = document.getElementById('gateInputA');
-      const btnB = document.getElementById('gateInputB');
-      if (!btnA) return;
-
-      btnA.innerText = `Input A: ${gateInA} (${gateInA ? 'HIGH' : 'LOW'})`;
-      btnA.className = gateInA ? 
-        "px-4 py-2 rounded-xl bg-cyan-500 text-slate-950 border-2 border-cyan-300 text-xs font-mono font-bold shadow-md shadow-cyan-500/30" : 
-        "px-4 py-2 rounded-xl bg-slate-800 border-2 border-slate-700 text-xs font-mono font-bold hover:border-cyan-400 text-slate-300";
-
-      btnB.innerText = `Input B: ${gateInB} (${gateInB ? 'HIGH' : 'LOW'})`;
-      btnB.className = gateInB ? 
-        "px-4 py-2 rounded-xl bg-cyan-500 text-slate-950 border-2 border-cyan-300 text-xs font-mono font-bold shadow-md shadow-cyan-500/30" : 
-        "px-4 py-2 rounded-xl bg-slate-800 border-2 border-slate-700 text-xs font-mono font-bold hover:border-cyan-400 text-slate-300";
-
-      let out = 0;
-      let rule = "";
-
-      if (currentGate === 'AND') {
-        out = (gateInA === 1 && gateInB === 1) ? 1 : 0;
-        rule = "AND Gate: Outputs 1 only if Input A AND Input B are 1.";
-      } else if (currentGate === 'OR') {
-        out = (gateInA === 1 || gateInB === 1) ? 1 : 0;
-        rule = "OR Gate: Outputs 1 if either Input A OR Input B (or both) are 1.";
-      } else if (currentGate === 'NOT') {
-        out = (gateInA === 0) ? 1 : 0;
-        rule = "NOT Gate: Inverts Input A (0 becomes 1; 1 becomes 0).";
-      }
-
-      const bulb = document.getElementById('gateBulb');
-      const label = document.getElementById('gateOutputLabel');
-      const sum = document.getElementById('truthTableSummary');
-
-      label.innerText = `Output: ${out}`;
-      sum.innerText = rule;
-
-      if (out === 1) {
-        bulb.className = "w-14 h-14 rounded-full bg-amber-400 border-2 border-amber-300 shadow-xl shadow-amber-400/80 flex items-center justify-center text-2xl scale-110 transition-all";
-        label.className = "text-xs font-mono font-bold text-amber-300 mt-2";
-      } else {
-        bulb.className = "w-14 h-14 rounded-full bg-slate-800 border-2 border-slate-700 flex items-center justify-center text-2xl text-slate-600 transition-all";
-        label.className = "text-xs font-mono font-bold text-slate-500 mt-2";
-      }
-    }
-
-    window.addEventListener('DOMContentLoaded', () => {
-      setYear('year5');
-    });
   </script>
 </body>
 </html>
